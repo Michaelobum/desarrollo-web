@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <h2>¿Estas Seguro de querer eliminar este registro?</h2>
+        <p>Valor <strong>{{ producto.nombre }} - {{ producto.marca }} - {{ producto.precio }}</strong></p>
+        <button type="submit" class="btn btn-success">Eliminar</button>
+        <a href="{{ ruta }}" class="btn btn-danger">Cancelar</a>
+    </form>
+{% endblock %}

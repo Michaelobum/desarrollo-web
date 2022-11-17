@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <h2>¿Estás seguro de eliminar esto?</h2>
+        <p>Valor <strong>
+            {% for l in mediopago.all %}
+                <span class="label label-info"> {{ l.descripcion }}</span>
+                -
+                <span class="label label-info"> {{ l.codigo }}</span>
+            {% endfor %}
+        </strong></p>
+        <button type="submit" class="btn btn-success">Eliminar</button>
+        <a href="{{ ruta }}" class="btn btn-danger">Cancelar</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <h2>¿Estás seguro de eliminar esto?</h2>
+        <p>Valor <strong>{{ marca.descripcion }} -
+        {% for l in marca.mediopago.all %}
+            {{ l.descripcion }}<br>
+        {% endfor %}
+        </strong></p>
+        <button type="submit" class="btn btn-success">Eliminar</button>
+        <a href="{{ ruta }}" class="btn btn-danger">Cancelar</a>
+    </form>
+{% endblock %}

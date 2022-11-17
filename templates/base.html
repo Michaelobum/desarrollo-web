@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ nombre }} | {{ empresa }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/sweetalert2/sweetalert2.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/dt-1.10.21/af-2.3.5/fc-3.3.1/fh-3.1.7/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sc-2.0.2/sp-1.1.1/datatables.min.css"/>
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/"><strong> <i class="fa fa-home"></i> {{ empresa }}
+    </strong></a>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fa fa-home"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/mediopago/"><i class="fa fa-money"></i> Medio Pago</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Marca/"><i class="fa fa-list"></i> Marcas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Producto/"><i class="fa fa-product-hunt"></i> Productos</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">{{ nombre }}</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <a href="/" class="btn btn-sm btn-outline-secondary">Inicio</a>
+                        <a href="{{ ruta }}" class="btn btn-sm btn-outline-secondary">{{ nombre }}</a>
+                    </div>
+                </div>
+            </div>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+</div>
+
+
+</body>
+<script src="/static/js/jquery-3.4.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/dt-1.10.21/af-2.3.5/fc-3.3.1/fh-3.1.7/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sc-2.0.2/sp-1.1.1/datatables.min.js"></script>
+
+<script src="/static/sweetalert2/sweetalert2.js"></script>
+<link href="/static/select2/select2.min.css" rel="stylesheet">
+<script src="/static/select2/select2.min.js"></script>
+
+<script>
+    window.onload = function () {
+        {% if messages %}
+            {% for message in messages %}
+                Swal.fire('{{ message }}', 'Michael', '{% if message.tags %}{{ message.tags }}{% endif %}')
+            {% endfor %}
+        {% endif %}
+    }
+
+
+    $(document).ready(function () {
+        const tabla = $('#tabla').DataTable({
+            responsive: true,
+            ordering: false,
+            language: {
+                "url": '/static/js/i18n/Spanish.json'
+            },
+            buttons: []
+        });
+        $('#tabla tbody').on('click', 'tr', function () {
+            var data = tabla.row(this).data();
+        });
+        $('.select2').select2();
+    });
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+
+
+</script>
+
+{% block js %}
+{% endblock %}
+
+<script>
+
+</script>
+
+</html>

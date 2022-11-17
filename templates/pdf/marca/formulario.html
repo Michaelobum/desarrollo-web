@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Formulario {{ nombre }}</h1>
+    <form method="POST" action="{{ ruta }}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="id" value="{{ id }}">
+
+        {% for field in formulario %}
+            <div class="form-group">
+                <label class="form-label">{{ field.label }}: </label>
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <div class="table-responsive mb-4">
+            <table id="tbDetalle"
+                   class="table table-striped table-condensed cf">
+                <thead>
+                <tr>
+                    <th colspan="2">Ruc Sap de Proveedor:</th>
+                </tr>
+                <tr style="background-color: #3498DB; color: #FFFFFF;">
+                    <th>Nro Ruc</th>
+                    <th width="10%">
+                        <i class="fa fa-cog"></i>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for d in detalle %}
+                    <tr>
+                    <td>
+                        <input name="rucsap[]" type="text" required class="form-control" value="{{ d.ruc_sap }}">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm deleteFila"><i class="fa fa-trash"></i></button>
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="1"></th>
+                    <th style="text-align: center">
+                        <a id="btnAdd" class="btn btn-info btn-sm"
+                           style="color: #ffffff; background-color: #3498DB;">
+                            <i class="fa fa-plus-circle"></i></a>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+        <a href="{{ ruta }}" class="btn btn-danger"><i class="fa fa-close"></i> Cancelar</a>
+    </form>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function () {
+
+            $('#btnAdd').click(function () {
+                $('#tbDetalle tbody').append($('<tr>', {}).append(
+                    $('<td>', {}).append($('<input>', {
+                        'class': 'form-control',
+                        'type': 'text',
+                        'required': 'true',
+                        'name': 'rucsap[]'
+                    })),
+                    $('<td>').append($('<button>', {
+                        'type': 'button',
+                        'class': 'btn btn-danger btn-sm deleteFila',
+                        'html': '<i class="fa fa-trash"></i>'
+                    }))
+                ));
+            });
+
+            $('#tbDetalle').on('click', 'tbody tr td .deleteFila', function () {
+                $(this).parents('tr').remove();
+            })
+
+
+        })
+
+    </script>
+{% endblock %}

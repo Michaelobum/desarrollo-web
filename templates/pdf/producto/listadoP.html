@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    thead, tfoot {
+        display: table-row-group;
+    }
+    body {
+        width: 90%;
+        height: 90%;
+        color: #444444;
+        font-family: 'Calibri', Calibri, serif;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        table-layout: fixed;
+    }
+
+
+    .currency span {
+        display: inline-block;
+        min-width: 20px;
+    }
+    #items .first-cell, #items table th:first-child, #items table td:first-child {
+        width: 53px;
+        text-align: right;
+    }
+    #items table {
+        border-collapse: separate;
+        width: 100%;
+    }
+    #items table th {
+        font-size: 20px;
+        text-transform: uppercase;
+        padding: 5px 5px;
+        text-align: left;
+        background: #FFFFFF;
+        color: white;
+    }
+    #items table th:nth-child(2) {
+        width: 30%;
+        text-align: left;
+    }
+    #items table th:last-child {
+        text-align: right;
+    }
+    #items table td {
+        padding: 5px 3px;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+    }
+</style>
+<body>
+<div id="container">
+    <div class="right-invoice">
+        <section id="invoice-title-number">
+            <div class="title-top">
+                <h1 style="font-size: 2em">Listado Proveedores</h1>
+            </div>
+        </section>
+        <section id="items">
+            <table>
+                <thead style="background-color: #333333">
+                <tr style="font-size: 20px;">
+                    <th style="text-align: center; width: 20%; background-color: #3498DB;" >
+                        Nombre
+                    </th>
+                    <th style="text-align: center; width: 20%; background-color: #3498DB;" >
+                        Marca
+                    </th>
+                    <th style="text-align: center; width: 20%; background-color: #3498DB;">
+                        Precio
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for l in listado %}
+                    <tr style="font-size: 20px;">
+                        <td style="text-align: center">{{ l.nombre }}</td>
+                        <td style="text-align: center">{{ l.marca }}</td>
+                        <td style="text-align: center">{{ l.precio }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+</body>
+</html>
+
